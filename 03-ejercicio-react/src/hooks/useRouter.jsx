@@ -29,7 +29,6 @@ export function useRouter() {
     const searchTerm = formData.get(inputName);
 
     const url = searchTerm 
-        // muy bien!
         ? `/search?text=${encodeURIComponent(searchTerm)}` 
         : '/search';
 

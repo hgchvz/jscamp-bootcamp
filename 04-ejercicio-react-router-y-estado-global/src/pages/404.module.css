@@ -1,0 +1,35 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    min-height: calc(100vh - 60px);
+    text-align: center;
+}
+
+.svg {
+    flex-shrink: 0;
+    margin-top: 2px;
+    width: 8rem;
+    height: 8rem;
+    color: var(--primary-light);
+}
+
+.title{
+    font-size: 6rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.subtitle{
+    font-size: 2.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.paragraph {
+    color: var(--text-muted);
+    font-size: 1.25rem;
+    line-height: 1.7;
+}

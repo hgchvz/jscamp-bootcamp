@@ -1,0 +1,13 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DEFAULTS = void 0;
+var DEFAULTS = {
+  LIMIT_PAGINATION: 10,
+  LIMIT_OFFSET: 0,
+  PORT: 1234
+};
+exports.DEFAULTS = DEFAULTS;
+//# sourceMappingURL=config.dev.js.map

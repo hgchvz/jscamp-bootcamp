@@ -2,64 +2,53 @@ import { JobModel } from "../models/job.js"
 import { DEFAULTS } from "../config.js"
 
 export class JobController {
-    static async getAll(req, res){
-
-        const { text, technology, type, level, limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.OFFSET_PAGINATION } = req.query
-
-        const { paginatedJobs, limitNumber, offsetNumber } = await JobModel.getAll({ text, technology, type, level, limit, offset }) 
-
-        return res.json({ data: paginatedJobs, total: paginatedJobs.length, limit: limitNumber, offset: offsetNumber})
+    static async getAll(request, response){
+        const { text, nivel, technology, limit = DEFAULTS.LIMIT_PAGINATION, offset = DEFAULTS.LIMIT_OFFSET } = request.query
+    
+        const result = await JobModel.getAll({ text, nivel, technology, limit, offset })
+    
+        return response.json({
+            data: result,
+            total: result.length,
+            limit: Number(limit),
+            offset: Number(offset)
+        })
     }
 
-    static async getId(req, res){
+    static async getId(request, response){
+        const { id } = request.params
+        const job = await JobModel.getById(id)
 
-        const { id } = req.params
+        if (!job) {
+            return response.status(404).json({ message: 'Empleo no encontrado' })
+        }
 
-        const {status, job} = await JobModel.getId(id)
-        
-        return res.status(status).json(job)
+        return response.json(job)
     }
 
-    static async create(req, res){
-        
-        const { titulo, empresa, ubicacion, descripcion, data } = req.body
-
-        const {status, newJob} = await JobModel.create({ titulo, empresa, ubicacion, descripcion, data })
-        
-        return res.status(status).json(newJob)
+    static async create(request, response){
+        const newJob = await JobModel.create(request.validatedBody)
+        return response.status(201).json(newJob)
     }
 
-    static async update(req, res){
-
-        const { id } = req.params
-        const sentJob = req.body
-
-        const { status, error } = await JobModel.update({ id, sentJob })
-        
-        return error
-            ? res.status(status).json(error)
-            : res.status(status).send()
+    static async update(request, response){
+        const { id } = request.params
+        const updatedJob = await JobModel.update(id, request.validatedBody)
+        if (!updatedJob) return response.status(404).json({ message: 'Empleo no encontrado' })
+        return response.json(updatedJob)
     }
 
-    static async partialUpdate(req, res){
-        const { id } = req.params
-        const sentJob = req.body
-
-        const { status, error } = await JobModel.partialUpdate({ id, sentJob })
-        
-        return error
-            ? res.status(status).json(error)
-            : res.status(status).send()
+    static async partialUpdate(request, response){
+        const { id } = request.params
+        const updatedJob = await JobModel.partialUpdate(id, request.validatedBody)
+        if (!updatedJob) return response.status(404).json({ message: 'Empleo no encontrado' })
+        return response.json(updatedJob)
     }
 
-    static async delete(req, res){
-
-        const { id } = req.params
-        
-        const { status, error } = await JobModel.delete(id)
-
-        return error
-            ? res.status(status).json(error)
-            : res.status(status).send()
+    static async delete(request, response){
+        const { id } = request.params
+        const deleted = await JobModel.delete(id)
+        if (!deleted) return response.status(404).json({ message: 'Empleo no encontrado' })
+        return response.status(204).send()
     }
 }

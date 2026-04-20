@@ -1,13 +1,13 @@
 {
-  "name": "express",
+  "name": "07-ejercicio-api-rest-con-express-y-mvc",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cross-env NODE_ENV=test node --test app.test.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "hgchvz",
   "license": "ISC",
   "type": "module",
   "dependencies": {

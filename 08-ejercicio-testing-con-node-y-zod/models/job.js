@@ -1,166 +1,83 @@
-import jobs from '../jobs.json' with {type: 'json'}
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
+import { dirname, join } from 'node:path'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const jobs = JSON.parse(readFileSync(join(__dirname, '../jobs.json'), 'utf-8'))
 
 export class JobModel {
-  static async getAll({ text, technology, type, level, limit, offset }) {
+    static async getAll({ text, nivel, technology, limit = 10, offset = 0}){
 
-    const filteredJobs = jobs.filter(job => {
+        let filteredJobs = [...jobs]
 
-      const normalizeTech = () => text.toLowerCase()
+        if (text) {
+            const searchTerm = text.toLowerCase()
+            filteredJobs = filteredJobs.filter(job =>
+                job.titulo.toLowerCase().includes(searchTerm) ||
+                job.descripcion.toLowerCase().includes(searchTerm)
+            )
+        }
 
-      const matchText = text
-        ? job.titulo.toLowerCase().includes(normalizeTech)
-        || job.descripcion.toLowerCase().includes(normalizeTech)
-        : true
+        if (nivel) {
+            filteredJobs = filteredJobs.filter(job =>
+                job.data.nivel === nivel.toLowerCase()
+            )
+        }
 
-      const matchTech = technology ? (job.data.technology.includes(technology)) : true
-      const matchType = type ? (job.data.modalidad === type) : true
-      const matchLevel = level ? (job.data.nivel === level) : true
+        if (technology) {
+            filteredJobs = filteredJobs.filter(job =>
+                job.data.technology.includes(technology.toLowerCase())
+            )
+        }
 
-      return matchText && matchTech && matchType && matchLevel
-    })
+        const limitNumber = Number(limit)
+        const offsetNumber = Number(offset)
 
-    const limitNumber = Number(limit)
-    const offsetNumber = Number(offset)
+        const paginatedJobs = filteredJobs.slice(offsetNumber, offsetNumber + limitNumber)
 
-    const paginatedJobs = filteredJobs.slice(offsetNumber, offsetNumber + limitNumber)
-
-    return { paginatedJobs, limitNumber, offsetNumber }
-  }
-
-  static async getId(id) {
-
-    const job = jobs.find(job => job.id === id)
-
-    const output = {
-      status: 200,
-      job: job
+        return paginatedJobs
     }
 
-    if (!output.job) {
-      output.status = 404
-      output.job = { error: 'Job Not Found' }
+    static async getById(id){
+        const job = jobs.find(job => job.id === id)
+        return job
     }
 
-    return output
-  }
-
-  static async create({ titulo, empresa, ubicacion, descripcion, data }) {
-
-    const output = {
-      status: 201,
-      newJob: {
-        id: crypto.randomUUID(),
-        titulo,
-        empresa,
-        ubicacion,
-        descripcion,
-        data
-      }
+    static async create({ titulo, empresa, ubicacion, data }){
+        const newJob = {
+            id: crypto.randomUUID(),
+            titulo,
+            empresa,
+            ubicacion,
+            data
+        }
+        jobs.push(newJob)
+        return newJob
     }
 
-    jobs.push(output.newJob)
+    static async update(id, body){
+        const jobIndex = jobs.findIndex(job => job.id === id)
+        if (jobIndex === -1) return null
 
-    return output
-  }
-
-  static async update({ id, sentJob }) {
-
-    const output = {
-      status: 204,
-      error: null
+        const updatedJob = { ...body, id }
+        jobs[jobIndex] = updatedJob
+        return updatedJob
     }
 
-    const errorStatus = 404
-    const errorMessage = 'Target Job Not Found'
+    static async partialUpdate(id, body){
+        const jobIndex = jobs.findIndex(job => job.id === id)
+        if (jobIndex === -1) return null
 
-    if (!id) {
-      output.status = errorStatus
-      output.error = errorMessage
-
-      return output
+        const updatedJob = { ...jobs[jobIndex], ...body }
+        jobs[jobIndex] = updatedJob
+        return updatedJob
     }
 
-    const jobIndex = jobs.findIndex(job => job.id === id)
+    static async delete(id){
+        const jobIndex = jobs.findIndex(job => job.id === id)
+        if (jobIndex === -1) return null
 
-    if (jobIndex === -1) {
-      output.status = errorStatus
-      output.error = errorMessage
-
-      return output
+        jobs.splice(jobIndex, 1)
+        return true
     }
-
-    jobs[jobIndex] = { ...sentJob, id }
-
-    return output
-  }
-
-  static async partialUpdate({ id, sentJob }) {
-
-    const { titulo = null, empresa = null, ubicacion = null, descripcion = null, data = null } = sentJob
-
-    const output = {
-      status: 204,
-      error: null
-    }
-
-    const errorStatus = 404
-    const errorMessage = 'Target Job Not Found'
-
-    if (!id) {
-      output.status = errorStatus
-      output.error = errorMessage
-
-      return output
-    }
-
-    const jobIndex = jobs.findIndex(job => job.id === id)
-
-    if (jobIndex === -1) {
-      output.status = errorStatus
-      output.error = errorMessage
-
-      return output
-    }
-
-    const job = jobs[jobIndex]
-
-    job.titulo = titulo ?? job.titulo
-    job.empresa = empresa ?? job.empresa
-    job.ubicacion = ubicacion ?? job.ubicacion
-    job.descripcion = descripcion ?? job.descripcion
-    job.data = data ?? job.data
-
-    return output
-  }
-
-  static async delete(id) {
-
-    const output = {
-      status: 204,
-      error: null
-    }
-
-    const errorStatus = 404
-    const errorMessage = 'Target Job Not Found'
-
-    if (!id) {
-      output.status = errorStatus
-      output.error = errorMessage
-
-      return output
-    }
-
-    const jobIndex = jobs.findIndex(job => job.id === id)
-
-    if (jobIndex === -1) {
-      output.status = errorStatus
-      output.error = errorMessage
-
-      return output
-    }
-
-    jobs.splice(jobIndex, 1)
-
-    return output
-  }
 }

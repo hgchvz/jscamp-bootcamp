@@ -1,10 +1,257 @@
-/*
- * Aquí debes escribir tus tests para la API de jobs
- *
- * Recuerda:
- * - Usar node:test y node:assert (sin dependencias externas)
- * - Levantar el servidor con before() y cerrarlo con after()
- * - Testear todos los endpoints: GET, POST, PUT, PATCH, DELETE
- * - Verificar validaciones con Zod
- * - Comprobar códigos de estado HTTP correctos
- */
+import { test, describe, before, after } from 'node:test'
+import assert from 'node:assert'
+import app from './app.js'
+
+let server
+const PORT = 5678
+const BASE_URL = `http://localhost:${PORT}`
+
+const VALID_ID = 'd35b2c89-5d60-4f26-b19a-6cfb2f1a0f57'
+const ID_PARA_PATCH_Y_DELETE = 'f62d8a34-923a-4ac2-9b0b-14e0ac2f5405'
+const INVALID_ID = 'id-que-no-existe'
+
+before(async () => {
+    return new Promise((resolve, reject) => {
+        server = app.listen(PORT, () => resolve())
+        server.on('error', reject)
+    })
+})
+
+after(async () => {
+    return new Promise((resolve, reject) => {
+        server.close((err) => {
+            if (err) return reject(err)
+            resolve()
+        })
+    })
+})
+
+describe('GET /jobs', () => {
+    test('debe responder con 200 y un array de trabajos', async () => {
+        const response = await fetch(`${BASE_URL}/jobs`)
+        assert.strictEqual(response.status, 200)
+
+        const json = await response.json()
+        assert.ok(Array.isArray(json.data), 'json.data debe ser un array')
+    })
+
+    test('debe filtrar trabajos por tecnología', async () => {
+        const tech = 'react'
+        const response = await fetch(`${BASE_URL}/jobs?technology=${tech}`)
+        assert.strictEqual(response.status, 200)
+
+        const json = await response.json()
+        assert.ok(
+            json.data.every(job => job.data.technology.includes(tech)),
+            `Todos los trabajos deben incluir la tecnología ${tech}`
+        )
+    })
+
+    test('debe respetar el límite de resultados', async () => {
+        const response = await fetch(`${BASE_URL}/jobs?limit=2`)
+        assert.strictEqual(response.status, 200)
+
+        const json = await response.json()
+        assert.strictEqual(json.limit, 2)
+        assert.strictEqual(json.data.length, 2)
+    })
+
+    test('debe aplicar offset correctamente', async () => {
+        const response = await fetch(`${BASE_URL}/jobs?offset=1`)
+        assert.strictEqual(response.status, 200)
+
+        const json = await response.json()
+        assert.strictEqual(json.data[0].id, VALID_ID, 'El primer resultado debe ser el segundo job del JSON')
+    })
+})
+
+describe('GET /jobs/:id', () => {
+    test('debe devolver el trabajo con el ID especificado', async () => {
+        const response = await fetch(`${BASE_URL}/jobs/${VALID_ID}`)
+        assert.strictEqual(response.status, 200)
+
+        const json = await response.json()
+        assert.strictEqual(json.id, VALID_ID)
+    })
+
+    test('debe responder con 404 cuando el ID no existe', async () => {
+        const response = await fetch(`${BASE_URL}/jobs/${INVALID_ID}`)
+        assert.strictEqual(response.status, 404)
+
+        const json = await response.json()
+        assert.ok(json.message, 'La respuesta debe contener un campo message')
+    })
+})
+
+describe('POST /jobs', () => {
+    test('debe crear un nuevo trabajo y responder con 201', async () => {
+        const newJob = {
+            titulo: 'Frontend Developer',
+            empresa: 'Test Company',
+            ubicacion: 'Remoto',
+            data: {
+                technology: ['react', 'javascript'],
+                modalidad: 'remoto',
+                nivel: 'junior',
+                contrato: 'jornada-completa'
+            }
+        }
+
+        const response = await fetch(`${BASE_URL}/jobs`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newJob)
+        })
+
+        assert.strictEqual(response.status, 201)
+
+        const json = await response.json()
+        assert.ok(json.id, 'El trabajo creado debe tener un id')
+        assert.strictEqual(json.titulo, newJob.titulo)
+        assert.strictEqual(json.empresa, newJob.empresa)
+    })
+
+    test('debe responder con 400 si el título tiene menos de 3 caracteres', async () => {
+        const response = await fetch(`${BASE_URL}/jobs`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ titulo: 'ab', empresa: 'Test', ubicacion: 'Remoto', data: {} })
+        })
+        assert.strictEqual(response.status, 400)
+    })
+
+    test('debe responder con 400 si el título tiene más de 100 caracteres', async () => {
+        const response = await fetch(`${BASE_URL}/jobs`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ titulo: 'a'.repeat(101), empresa: 'Test', ubicacion: 'Remoto', data: {} })
+        })
+        assert.strictEqual(response.status, 400)
+    })
+
+    test('debe responder con 400 si falta el campo título', async () => {
+        const response = await fetch(`${BASE_URL}/jobs`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ empresa: 'Test', ubicacion: 'Remoto', data: {} })
+        })
+        assert.strictEqual(response.status, 400)
+    })
+
+    test('debe responder con 400 si el título no es un string', async () => {
+        const response = await fetch(`${BASE_URL}/jobs`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ titulo: 123, empresa: 'Test', ubicacion: 'Remoto', data: {} })
+        })
+        assert.strictEqual(response.status, 400)
+    })
+
+    test('debe responder con 201 si falta el campo descripción (es opcional)', async () => {
+        const response = await fetch(`${BASE_URL}/jobs`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                titulo: 'Job sin descripción',
+                empresa: 'Test Company',
+                ubicacion: 'Remoto',
+                data: {
+                    technology: ['javascript'],
+                    modalidad: 'remoto',
+                    nivel: 'junior',
+                    contrato: 'jornada-completa'
+                }
+            })
+        })
+        assert.strictEqual(response.status, 201)
+    })
+})
+
+describe('PUT /jobs/:id', () => {
+    test('debe actualizar el trabajo y responder con 200', async () => {
+        const updatedJob = {
+            titulo: 'Puesto Actualizado PUT',
+            empresa: 'Empresa Actualizada',
+            ubicacion: 'Presencial',
+            data: {
+                technology: ['node'],
+                modalidad: 'remoto',
+                nivel: 'senior',
+                contrato: 'jornada-completa'
+            }
+        }
+
+        const response = await fetch(`${BASE_URL}/jobs/${VALID_ID}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedJob)
+        })
+        assert.strictEqual(response.status, 200)
+
+        const getResponse = await fetch(`${BASE_URL}/jobs/${VALID_ID}`)
+        const json = await getResponse.json()
+        assert.strictEqual(json.titulo, updatedJob.titulo)
+        assert.strictEqual(json.empresa, updatedJob.empresa)
+    })
+
+    test('debe responder con 404 cuando el ID no existe', async () => {
+        const response = await fetch(`${BASE_URL}/jobs/${INVALID_ID}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                titulo: 'Test',
+                empresa: 'Test',
+                ubicacion: 'Test',
+                data: { technology: ['javascript'], modalidad: 'remoto', nivel: 'junior', contrato: 'jornada-completa' }
+            })
+        })
+        assert.strictEqual(response.status, 404)
+    })
+})
+
+describe('PATCH /jobs/:id', () => {
+    test('debe actualizar solo los campos enviados y responder con 200', async () => {
+        const patch = { titulo: 'Titulo Parcheado', ubicacion: 'Barcelona' }
+
+        const response = await fetch(`${BASE_URL}/jobs/${ID_PARA_PATCH_Y_DELETE}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(patch)
+        })
+        assert.strictEqual(response.status, 200)
+
+        const getResponse = await fetch(`${BASE_URL}/jobs/${ID_PARA_PATCH_Y_DELETE}`)
+        const json = await getResponse.json()
+        assert.strictEqual(json.titulo, patch.titulo)
+        assert.strictEqual(json.ubicacion, patch.ubicacion)
+        assert.ok(json.empresa, 'El campo empresa debe seguir existiendo')
+    })
+
+    test('debe responder con 404 cuando el ID no existe', async () => {
+        const response = await fetch(`${BASE_URL}/jobs/${INVALID_ID}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ titulo: 'Test' })
+        })
+        assert.strictEqual(response.status, 404)
+    })
+})
+
+describe('DELETE /jobs/:id', () => {
+    test('debe eliminar el trabajo y responder con 204', async () => {
+        const response = await fetch(`${BASE_URL}/jobs/${ID_PARA_PATCH_Y_DELETE}`, {
+            method: 'DELETE'
+        })
+        assert.strictEqual(response.status, 204)
+
+        const getResponse = await fetch(`${BASE_URL}/jobs/${ID_PARA_PATCH_Y_DELETE}`)
+        assert.strictEqual(getResponse.status, 404)
+    })
+
+    test('debe responder con 404 cuando el ID no existe', async () => {
+        const response = await fetch(`${BASE_URL}/jobs/${INVALID_ID}`, {
+            method: 'DELETE'
+        })
+        assert.strictEqual(response.status, 404)
+    })
+})

@@ -1,0 +1,1 @@
+{"version":3,"sources":["config.js"],"names":["DEFAULTS","LIMIT_PAGINATION","LIMIT_OFFSET","PORT"],"mappings":";;;;;;AAAO,IAAMA,QAAQ,GAAG;AACpBC,EAAAA,gBAAgB,EAAE,EADE;AAEpBC,EAAAA,YAAY,EAAE,CAFM;AAGpBC,EAAAA,IAAI,EAAE;AAHc,CAAjB","sourcesContent":["export const DEFAULTS = {\r\n    LIMIT_PAGINATION: 10,\r\n    LIMIT_OFFSET: 0,\r\n    PORT: 1234\r\n}"],"file":"config.dev.js"}

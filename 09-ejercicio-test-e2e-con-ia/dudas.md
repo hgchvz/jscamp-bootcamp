@@ -1,0 +1,1 @@
+# Perdon no pude hacer lo de ia porque no tengo lo de chatpgt pero me parecio super lo que hizo midu, lo hare cuando pueda, nuevamente una disculpa

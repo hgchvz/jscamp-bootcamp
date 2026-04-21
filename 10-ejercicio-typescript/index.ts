@@ -1,9 +1,9 @@
-import { jobs, candidates } from './arrays.ts'
-import { filterByExperience, searchJobs } from './functions.ts'
-import { isQualified, formatSalary } from './narrowing.ts'
-import { getSalaryRange } from './tuples.ts'
-import { safeSearch, displaySearchResults } from './unions.ts'
-import { getJobSummaries } from './utilities.ts'
+import { jobs, candidates } from './arrays'
+import { filterByExperience, searchJobs } from './functions'
+import { isQualified, formatSalary } from './narrowing'
+import { getSalaryRange } from './tuples'
+import { safeSearch, displaySearchResults } from './unions'
+import { getJobSummaries } from './utilities'
 
 console.log('=== Sistema de Gestión de Empleos ===\n')
 console.log('Total de empleos:', jobs.length)
@@ -22,15 +22,13 @@ if (jobs.length > 0 && candidates.length > 0) {
 const [minSalary, maxSalary] = getSalaryRange(jobs)
 console.log(`Rango salarial: ${formatSalary(minSalary)} - ${formatSalary(maxSalary)}`)
 
-// Probar búsqueda segura
 const searchResult = safeSearch(jobs, 'react')
 displaySearchResults(searchResult)
 
-// Probar resúmenes de empleos
 const summaries = getJobSummaries(jobs)
 console.log('\nResúmenes de empleos:')
 summaries.forEach((summary) => {
   console.log(`- ${summary.title} en ${summary.company} (${summary.location})`)
 })
 
-console.log('\n✅ Ejercicio completado!')
+console.log('\nEjercicio completado!')

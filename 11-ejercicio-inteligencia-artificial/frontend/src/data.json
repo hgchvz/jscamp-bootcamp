@@ -1,0 +1,197 @@
+[
+  {
+    "id": "7a4d1d8b-1e45-4d8c-9f1a-8c2f9a9121a4",
+    "titulo": "Desarrollador de Software Senior",
+    "empresa": "Tech Solutions Inc.",
+    "ubicacion": "Remoto",
+    "descripcion": "Buscamos un Desarrollador de Software Senior altamente motivado para liderar proyectos de desarrollo web de alto impacto. Serás responsable de diseñar e implementar soluciones escalables, realizar revisiones de código y mentorizar a desarrolladores junior. Se requiere sólida experiencia en JavaScript moderno, React para el frontend y Node.js para servicios backend, así como conocimientos en arquitectura de microservicios y buenas prácticas de desarrollo.",
+    "data": {
+      "technology": ["react", "node", "javascript"],
+      "modalidad": "remoto",
+      "nivel": "senior",
+      "contrato": "jornada-completa"
+    }
+  },
+  {
+    "id": "d35b2c89-5d60-4f26-b19a-6cfb2f1a0f57",
+    "titulo": "Analista de Datos",
+    "empresa": "Data Driven Co.",
+    "ubicacion": "Ciudad de México",
+    "descripcion": "Estamos buscando un Analista de Datos para unirse a nuestro equipo en Ciudad de México. El candidato será responsable de recopilar, procesar y analizar grandes volúmenes de datos para apoyar la toma de decisiones estratégicas. Se requiere experiencia en Python para automatización y análisis, SQL avanzado para consultas complejas, y manejo de bases de datos relacionales como PostgreSQL y MySQL. Se valorará experiencia en visualización de datos con herramientas como Power BI o Tableau.",
+    "data": {
+      "technology": ["python", "postgresql", "mysql"],
+      "modalidad": "cdmx",
+      "nivel": "junior",
+      "contrato": "jornada-completa"
+    }
+  },
+  {
+    "id": "e31f9a92-61d7-4b7a-b3a2-91e8c1f40b2d",
+    "titulo": "Desarrollador de Aplicaciones Móviles",
+    "empresa": "Mobile Apps Ltd.",
+    "ubicacion": "Guadalajara",
+    "descripcion": "Mobile Apps Ltd. busca un Desarrollador de Aplicaciones Móviles con experiencia en desarrollo multiplataforma. El candidato trabajará en el diseño e implementación de aplicaciones móviles para iOS y Android utilizando React Native. Se requiere buen dominio de JavaScript, CSS para estilos y experiencia en consumo de APIs REST. Es importante tener atención al detalle en la experiencia de usuario y conocimiento en publicación de apps en App Store y Google Play.",
+    "data": {
+      "technology": ["javascript", "css", "react"],
+      "modalidad": "guadalajara",
+      "nivel": "mid-level",
+      "contrato": "medio-tiempo"
+    }
+  },
+  {
+    "id": "f62d8a34-923a-4ac2-9b0b-14e0ac2f5405",
+    "titulo": "Ingeniero de DevOps",
+    "empresa": "Cloud Services SA",
+    "ubicacion": "Remoto",
+    "descripcion": "Cloud Services SA busca un Ingeniero de DevOps para gestionar y optimizar nuestra infraestructura en la nube. Serás responsable de implementar y mantener pipelines de CI/CD, automatizar procesos de despliegue y garantizar la disponibilidad de los servicios. Se requiere experiencia con proveedores cloud como AWS, Azure o GCP, manejo de contenedores con Docker y Kubernetes, y scripting con Python o Node.js para automatización de tareas.",
+    "data": {
+      "technology": ["node", "python"],
+      "modalidad": "remoto",
+      "nivel": "mid-level",
+      "contrato": "jornada-completa"
+    }
+  },
+  {
+    "id": "a9f31a8e-ec38-4fd3-9114-88cc6d37a92b",
+    "titulo": "Diseñador UX/UI",
+    "empresa": "Creative Minds Studio",
+    "ubicacion": "Barcelona",
+    "descripcion": "Creative Minds Studio busca un Diseñador UX/UI apasionado por crear experiencias digitales excepcionales. Trabajarás en estrecha colaboración con el equipo de desarrollo para traducir necesidades del usuario en interfaces intuitivas y atractivas. Se requiere dominio de Figma, conocimientos sólidos de HTML y CSS para comunicarse efectivamente con los desarrolladores, experiencia en investigación de usuarios y creación de prototipos. Se valorará experiencia con JavaScript para crear prototipos interactivos.",
+    "data": {
+      "technology": ["css", "html", "javascript"],
+      "modalidad": "barcelona",
+      "nivel": "mid-level",
+      "contrato": "jornada-completa"
+    }
+  },
+  {
+    "id": "c1b65b42-68c5-4f1c-a8c2-8d52c5a7a5d1",
+    "titulo": "Administrador de Bases de Datos",
+    "empresa": "Secure Data Corp.",
+    "ubicacion": "Buenos Aires",
+    "descripcion": "Secure Data Corp. busca un Administrador de Bases de Datos con experiencia en entornos de producción de alta disponibilidad. El candidato será responsable de diseñar, implementar y mantener bases de datos relacionales, garantizando su rendimiento, seguridad y disponibilidad. Se requiere experiencia avanzada en PostgreSQL y MySQL, conocimientos en replicación, backup y recuperación ante desastres, y capacidad para optimizar consultas complejas. Se valorará experiencia con Python para automatización de tareas administrativas.",
+    "data": {
+      "technology": ["postgresql", "mysql", "python"],
+      "modalidad": "bsas",
+      "nivel": "mid-level",
+      "contrato": "jornada-completa"
+    }
+  },
+  {
+    "id": "bb8f2a99-6a20-4f9e-912a-16f54a49b8c3",
+    "titulo": "Especialista en Ciberseguridad",
+    "empresa": "SafeNet Solutions",
+    "ubicacion": "Remoto",
+    "descripcion": "SafeNet Solutions busca un Especialista en Ciberseguridad para proteger la infraestructura tecnológica de nuestros clientes. Serás responsable de realizar auditorías de seguridad, análisis de vulnerabilidades y respuesta ante incidentes. Se requiere experiencia en pentesting, conocimientos en herramientas SIEM, y capacidad para desarrollar scripts de seguridad con Python y Node.js. Se valorarán certificaciones como CEH, OSCP o CISSP.",
+    "data": {
+      "technology": ["python", "node"],
+      "modalidad": "remoto",
+      "nivel": "senior",
+      "contrato": "jornada-completa"
+    }
+  },
+  {
+    "id": "fe7b2c54-4f47-4e2b-9e87-2b5413a6b24f",
+    "titulo": "Product Manager",
+    "empresa": "NextGen Technologies",
+    "ubicacion": "Madrid",
+    "descripcion": "NextGen Technologies busca un Product Manager con visión estratégica para liderar el ciclo de vida completo de nuestros productos digitales. Serás el puente entre el negocio, el diseño y el equipo técnico, definiendo la hoja de ruta del producto y priorizando funcionalidades basándote en datos y feedback de usuarios. Se requiere experiencia con metodologías ágiles, conocimientos básicos de JavaScript para comunicarse con el equipo técnico, y habilidades analíticas para interpretar métricas de producto.",
+    "data": {
+      "technology": ["javascript"],
+      "modalidad": "madrid",
+      "nivel": "senior",
+      "contrato": "jornada-completa"
+    }
+  },
+  {
+    "id": "a71f7a92-56d9-4b42-9f16-cb29b40e5f2c",
+    "titulo": "Frontend Developer",
+    "empresa": "Bright Web Studio",
+    "ubicacion": "Valencia",
+    "descripcion": "Bright Web Studio busca un Frontend Developer con ojo para el detalle y pasión por crear interfaces de usuario de alta calidad. Trabajarás en proyectos web modernos utilizando React y TypeScript, aplicando buenas prácticas de accesibilidad y rendimiento. Se requiere sólido dominio de HTML semántico, CSS avanzado, JavaScript moderno y React con hooks. Se valorará experiencia con Tailwind CSS, testing con Jest y conocimientos en optimización web.",
+    "data": {
+      "technology": ["react", "javascript", "css", "html"],
+      "modalidad": "valencia",
+      "nivel": "mid-level",
+      "contrato": "jornada-completa"
+    }
+  },
+  {
+    "id": "f91e4c7b-3840-43da-8ad7-3a52e2a8cf1d",
+    "titulo": "Backend Developer",
+    "empresa": "APIWorks",
+    "ubicacion": "Bogotá",
+    "descripcion": "APIWorks busca un Backend Developer para diseñar y mantener APIs robustas y escalables. Serás responsable de implementar servicios RESTful, gestionar bases de datos NoSQL y garantizar el rendimiento de las aplicaciones en producción. Se requiere experiencia en Node.js con Express o Fastify, conocimiento en MongoDB para modelado de datos, y buen manejo de JavaScript moderno. Se valorará experiencia en arquitectura de microservicios y conocimientos en seguridad de APIs.",
+    "data": {
+      "technology": ["node", "javascript", "mongodb"],
+      "modalidad": "bogota",
+      "nivel": "mid-level",
+      "contrato": "medio-tiempo"
+    }
+  },
+  {
+    "id": "b65a3c9f-b174-4d86-b8a2-9cf9b1e13a22",
+    "titulo": "Ingeniero de Machine Learning",
+    "empresa": "AI Labs",
+    "ubicacion": "Remoto",
+    "descripcion": "AI Labs busca un Ingeniero de Machine Learning para desarrollar e implementar modelos de inteligencia artificial en producción. Trabajarás en proyectos de predicción, clasificación y procesamiento de lenguaje natural, desde la exploración de datos hasta el despliegue de modelos en entornos cloud. Se requiere dominio avanzado de Python, experiencia con frameworks como TensorFlow o PyTorch, y conocimientos en MLOps para gestionar el ciclo de vida de los modelos.",
+    "data": {
+      "technology": ["python"],
+      "modalidad": "remoto",
+      "nivel": "senior",
+      "contrato": "jornada-completa"
+    }
+  },
+  {
+    "id": "e8d13c45-36cb-46cf-8f9d-8a0a7b532b8b",
+    "titulo": "QA Automation Engineer",
+    "empresa": "Quality First",
+    "ubicacion": "Lima",
+    "descripcion": "Quality First busca un QA Automation Engineer para garantizar la calidad de nuestras aplicaciones web. Serás responsable de diseñar e implementar estrategias de testing automatizado, desde pruebas unitarias hasta tests end-to-end. Se requiere experiencia en herramientas como Cypress o Playwright con JavaScript, conocimientos en integración de tests en pipelines de CI/CD con Node.js, y capacidad para identificar y documentar bugs de forma clara y reproducible.",
+    "data": {
+      "technology": ["javascript", "node"],
+      "modalidad": "lima",
+      "nivel": "mid-level",
+      "contrato": "por-hora"
+    }
+  },
+  {
+    "id": "d2e93b8a-0b41-4d09-9a52-36a0f418d493",
+    "titulo": "Administrador de Sistemas",
+    "empresa": "InfraTech Global",
+    "ubicacion": "Santiago de Chile",
+    "descripcion": "InfraTech Global busca un Administrador de Sistemas con experiencia en gestión de infraestructura Linux y entornos cloud. Serás responsable del mantenimiento, monitoreo y optimización de servidores en producción, implementación de soluciones con Docker y automatización de tareas con scripts en Python o Bash. Se requiere sólida experiencia en administración Linux, conocimientos en redes y seguridad, y capacidad para responder ante incidentes de forma eficiente.",
+    "data": {
+      "technology": ["python"],
+      "modalidad": "santiago",
+      "nivel": "mid-level",
+      "contrato": "jornada-completa"
+    }
+  },
+  {
+    "id": "cc0c1fae-4e85-4e2c-9b02-f12f9df8a2c9",
+    "titulo": "Scrum Master",
+    "empresa": "Agile Minds",
+    "ubicacion": "Madrid",
+    "descripcion": "Agile Minds busca un Scrum Master certificado para facilitar la adopción de metodologías ágiles en equipos de desarrollo de software. Serás el guardián del proceso Scrum, eliminando impedimentos, facilitando ceremonias y promoviendo la mejora continua del equipo. Se requiere experiencia comprobable como Scrum Master, conocimientos básicos de JavaScript para entender el trabajo del equipo técnico, y habilidades de comunicación y liderazgo. Certificación PSM o CSM deseable.",
+    "data": {
+      "technology": ["javascript"],
+      "modalidad": "madrid",
+      "nivel": "mid-level",
+      "contrato": "jornada-completa"
+    }
+  },
+  {
+    "id": "a2f1d8c6-b72c-45f5-bcc5-5c1d1f39b0b1",
+    "titulo": "Soporte Técnico Nivel 2",
+    "empresa": "HelpDesk Pro",
+    "ubicacion": "Monterrey",
+    "descripcion": "HelpDesk Pro busca un Técnico de Soporte Nivel 2 para brindar asistencia técnica especializada a nuestros clientes. Serás responsable de resolver incidencias escaladas, diagnosticar problemas de redes y sistemas operativos, y documentar soluciones para la base de conocimiento. Se requiere experiencia en soporte técnico, conocimientos en HTML y CSS para soporte de aplicaciones web, manejo de sistemas Windows y Linux, y excelentes habilidades de comunicación con usuarios finales.",
+    "data": {
+      "technology": ["html", "css"],
+      "modalidad": "monterrey",
+      "nivel": "junior",
+      "contrato": "por-hora"
+    }
+  }
+]

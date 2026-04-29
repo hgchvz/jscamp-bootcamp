@@ -1,0 +1,18 @@
+{
+  "name": "11-ejercicio-inteligencia-artificial",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:backend": "pnpm --filter 11-backend run watch",
+    "dev:frontend": "pnpm --filter 11-frontend run dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "streamdown": "^2.5.0"
+  }
+}

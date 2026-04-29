@@ -1,0 +1,77 @@
+/* ========================
+        EMPLEOS
+======================== */
+
+.resultsJobs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 1.5rem;
+
+    h2 {
+        width: 100%;
+        max-width: 680px;
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+}
+
+.jobsListings {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    max-width: 680px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.noJobs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 4rem 2rem;
+    text-align: center;
+    color: var(--text-muted);
+    width: 100%;
+    max-width: 680px;
+
+    svg {
+        color: var(--primary-light);
+        opacity: 0.5;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+    }
+
+    p {
+        font-size: 0.9rem;
+        max-width: 300px;
+    }
+}
+
+.error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 4rem 2rem;
+    text-align: center;
+
+    h3 {
+        color: #f87171;
+        font-size: 1.2rem;
+    }
+
+    p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+}

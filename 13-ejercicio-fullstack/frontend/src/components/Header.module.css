@@ -1,0 +1,112 @@
+/* ========================
+   HEADER
+======================== */
+
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--background);
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: white;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* ========================
+   NAVEGACION
+======================== */
+
+.navPages {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 0 auto;
+    padding-left: 2rem;
+
+    a {
+        text-decoration: none;
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        font-weight: 500;
+
+        &:hover {
+            color: var(--text-primary);
+        }
+
+        &:global(.active) {
+            color: var(--primary-light);
+            font-weight: 600;
+            pointer-events: none;
+            user-select: none;
+            text-decoration: underline;
+        }
+    }
+}
+
+/* ========================
+   THEME TOGGLE
+======================== */
+
+.themeToggle {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+
+    &:hover, &:focus {
+        background: transparent;
+        outline: none;
+    }
+}
+
+.themeToggleTrack {
+    width: 48px;
+    height: 26px;
+    background-color: var(--card-bg);
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    position: relative;
+    transition: background-color 0.3s;
+}
+
+.trackLight {
+    background-color: #bfdbfe;
+}
+
+.themeToggleThumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--text-muted);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s, background-color 0.3s;
+    color: white;
+}
+
+.thumbLight {
+    transform: translateX(22px);
+    background-color: #f59e0b;
+}

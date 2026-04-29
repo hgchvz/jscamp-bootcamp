@@ -1,0 +1,131 @@
+.centerWrapper {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+}
+
+/* ========================
+   ESTADOS
+======================== */
+
+.loading,
+.error {
+    padding-block: 5rem;
+    text-align: center;
+}
+
+.errorTitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.errorButton {
+    color: var(--primary-light);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+
+    &:hover {
+        text-decoration: underline;
+        background: none;
+        outline: none;
+    }
+}
+
+/* ========================
+   BREADCRUMB
+======================== */
+
+.breadcrumb {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.breadcrumbSeparator {
+    margin: 0 0.25rem;
+}
+
+.breadcrumbCurrent {
+    color: var(--text-primary);
+}
+
+/* ========================
+   HEADER DEL JOB
+======================== */
+
+.jobHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.jobActions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.4rem;
+    display: block;
+}
+
+.meta {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+/* ========================
+   SECCIONES DE CONTENIDO
+======================== */
+
+.section {
+    margin-bottom: 2.5rem;
+}
+
+.sectionTitle {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.sectionContent {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.75;
+}
+
+/* ========================
+   RESPONSIVE
+======================== */
+
+@media (max-width: 640px) {
+    .jobHeader {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+}
+
+.aiButton {
+    margin-bottom: 2.5rem;
+}

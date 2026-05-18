@@ -23,7 +23,6 @@ const formatBytes = (fileSize) => {
     return `${(fileSize / 1024).toFixed(2)} KB`
 }
 
-// Agregamos un error handling para el caso de que el directorio no exista
 let fileNames
 try {
     fileNames = await readdir(targetDir)

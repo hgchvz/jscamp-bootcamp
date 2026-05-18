@@ -4,6 +4,8 @@ var _nodeHttp = require("node:http");
 
 var _nodeCrypto = require("node:crypto");
 
+var _consumers = require("node:stream/consumers");
+
 process.loadEnvFile();
 var port = process.env.PORT || 3000;
 var users = [{
@@ -48,20 +50,14 @@ var users = [{
   age: 30
 }];
 
-var json = function json(req) {
-  return new Promise(function (resolve) {
-    var body = '';
-    req.on('data', function (chunk) {
-      body += chunk;
-    });
-    req.on('end', function () {
-      resolve(JSON.parse(body));
-    });
-  });
+var sendJson = function sendJson(res, statusCode, data) {
+  res.statusCode = statusCode;
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  return res.end(JSON.stringify(data));
 };
 
 var server = (0, _nodeHttp.createServer)(function _callee(req, res) {
-  var _ref, pathname, searchParams, nameFilter, minAgeFilter, maxAgeFilter, limitFilter, offsetFilter, filteredUsers, limit, offset, _ref2, name, age, newUser;
+  var _ref, pathname, searchParams, nameFilter, minAgeFilter, maxAgeFilter, limitFilter, offsetFilter, filteredUsers, isInvalidAge, _isInvalidAge, limit, offset, _ref2, name, age, newUser;
 
   return regeneratorRuntime.async(function _callee$(_context) {
     while (1) {
@@ -72,22 +68,18 @@ var server = (0, _nodeHttp.createServer)(function _callee(req, res) {
           // ===========
 
           if (!(req.method === 'GET' && pathname === '/health')) {
-            _context.next = 5;
+            _context.next = 3;
             break;
           }
 
-          res.writeHead(200, {
-            'Content-Type': 'application/json'
-          });
-          res.end(JSON.stringify({
+          return _context.abrupt("return", sendJson(res, 200, {
             status: 'ok',
             uptime: process.uptime()
           }));
-          return _context.abrupt("return");
 
-        case 5:
+        case 3:
           if (!(req.method === 'GET' && pathname === '/users')) {
-            _context.next = 19;
+            _context.next = 30;
             break;
           }
 
@@ -104,40 +96,93 @@ var server = (0, _nodeHttp.createServer)(function _callee(req, res) {
             });
           }
 
-          if (minAgeFilter) {
-            filteredUsers = filteredUsers.filter(function (user) {
-              return user.age >= Number(minAgeFilter);
-            });
-          }
-
-          if (maxAgeFilter) {
-            filteredUsers = filteredUsers.filter(function (user) {
-              return user.age <= Number(maxAgeFilter);
-            });
-          }
-
-          if (limitFilter && offsetFilter) {
-            limit = Number(limitFilter);
-            offset = Number(offsetFilter);
-            filteredUsers = filteredUsers.slice(offset, offset + limit);
-          }
-
-          res.writeHead(200, {
-            'Content-Type': 'application/json'
-          });
-          res.end(JSON.stringify(filteredUsers));
-          return _context.abrupt("return");
-
-        case 19:
-          if (!(req.method === 'POST' && pathname === '/users')) {
-            _context.next = 30;
+          if (!minAgeFilter) {
+            _context.next = 16;
             break;
           }
 
-          _context.next = 22;
-          return regeneratorRuntime.awrap(json(req));
+          isInvalidAge = Number.isNaN(Number(minAgeFilter)) || Number(minAgeFilter) < 0;
 
-        case 22:
+          if (!isInvalidAge) {
+            _context.next = 15;
+            break;
+          }
+
+          return _context.abrupt("return", sendJson(res, 400, {
+            error: 'Invalid age filter'
+          }));
+
+        case 15:
+          filteredUsers = filteredUsers.filter(function (user) {
+            return user.age >= Number(minAgeFilter);
+          });
+
+        case 16:
+          if (!maxAgeFilter) {
+            _context.next = 21;
+            break;
+          }
+
+          _isInvalidAge = Number.isNaN(Number(maxAgeFilter)) || Number(maxAgeFilter) < 0;
+
+          if (!_isInvalidAge) {
+            _context.next = 20;
+            break;
+          }
+
+          return _context.abrupt("return", sendJson(res, 400, {
+            error: 'Invalid age filter'
+          }));
+
+        case 20:
+          filteredUsers = filteredUsers.filter(function (user) {
+            return user.age <= Number(maxAgeFilter);
+          });
+
+        case 21:
+          if (!(limitFilter && offsetFilter)) {
+            _context.next = 29;
+            break;
+          }
+
+          limit = Math.floor(Number(limitFilter));
+          offset = Math.floor(Number(offsetFilter));
+
+          if (!(offset < 0)) {
+            _context.next = 26;
+            break;
+          }
+
+          return _context.abrupt("return", sendJson(res, 400, {
+            error: 'Invalid offset filter'
+          }));
+
+        case 26:
+          if (!(limit < 0)) {
+            _context.next = 28;
+            break;
+          }
+
+          return _context.abrupt("return", sendJson(res, 400, {
+            error: 'Invalid limit filter'
+          }));
+
+        case 28:
+          filteredUsers = filteredUsers.slice(offset, offset + limit);
+
+        case 29:
+          return _context.abrupt("return", sendJson(res, 200, filteredUsers));
+
+        case 30:
+          if (!(req.method === 'POST' && pathname === '/users')) {
+            _context.next = 39;
+            break;
+          }
+
+          _context.next = 33;
+          return regeneratorRuntime.awrap((0, _consumers.json)(req));
+
+        case 33:
           _ref2 = _context.sent;
           name = _ref2.name;
           age = _ref2.age;
@@ -147,24 +192,14 @@ var server = (0, _nodeHttp.createServer)(function _callee(req, res) {
             age: age
           };
           users.push(newUser);
-          res.writeHead(201, {
-            'Content-Type': 'application/json'
-          });
-          res.end(JSON.stringify(newUser));
-          return _context.abrupt("return");
+          return _context.abrupt("return", sendJson(res, 201, newUser));
 
-        case 30:
-          // ===========
-          // EJERCICIO 4
-          // ===========
-          res.writeHead(404, {
-            'Content-Type': 'application/json'
-          });
-          res.end(JSON.stringify({
+        case 39:
+          return _context.abrupt("return", sendJson(res, 404, {
             error: 'Ruta no encontrada'
           }));
 
-        case 32:
+        case 40:
         case "end":
           return _context.stop();
       }

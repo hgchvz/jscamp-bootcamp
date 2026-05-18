@@ -1,6 +1,5 @@
 import { createServer } from 'node:http'
 import { randomUUID } from 'node:crypto'
-// Con esto podemos trabajar con JSON desde streams
 import { json } from 'node:stream/consumers';
 
 process.loadEnvFile()
@@ -70,15 +69,6 @@ const users = [
 
 ]
 
-
-// Con la importación que hicimos, no hace falta esto
-/* const json = (req) => new Promise((resolve) => {
-  let body = ''
-  req.on('data', (chunk) => { body += chunk })
-  req.on('end', () => { resolve(JSON.parse(body)) })
-}) */
-
-// La consigna especificaba crear este helper, para poder responder con JSON sin tener que replicarlo en cada sitio
 const sendJson = function(res, statusCode, data) {
     res.statusCode = statusCode;
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -93,7 +83,6 @@ const server = createServer(async (req, res) => {
   // EJERCICIO 3
   // ===========
   if (req.method === 'GET' && pathname === '/health') {
-    // Lo podemos usar de esta manera
     return sendJson(res, 200, {
       status: 'ok',
       uptime: process.uptime()
@@ -120,7 +109,6 @@ const server = createServer(async (req, res) => {
     }
 
     if (minAgeFilter) {      
-      // Podemos hacer más validaciones
       const isInvalidAge = Number.isNaN(Number(minAgeFilter)) || Number(minAgeFilter) < 0
 
       if(isInvalidAge) {
@@ -133,7 +121,6 @@ const server = createServer(async (req, res) => {
     }
 
     if (maxAgeFilter) {
-      // Podemos hacer más validaciones
       const isInvalidAge = Number.isNaN(Number(maxAgeFilter)) || Number(maxAgeFilter) < 0
 
       if(isInvalidAge) {
@@ -146,16 +133,13 @@ const server = createServer(async (req, res) => {
     }
 
     if (limitFilter && offsetFilter) {
-      // Redondeamos para evitar problemas con decimales, si el usuario ingresa uno
       const limit  = Math.floor(Number(limitFilter))
       const offset = Math.floor(Number(offsetFilter))
 
-      // Validamos que el offset no sea negativo
       if (offset < 0) {
         return sendJson(res, 400, { error: 'Invalid offset filter' })
       }
 
-      // Validamos que el limit no sea negativo
       if (limit < 0) {
         return sendJson(res, 400, { error: 'Invalid limit filter' })
       }
@@ -163,7 +147,6 @@ const server = createServer(async (req, res) => {
       filteredUsers = filteredUsers.slice(offset, offset + limit)
     }
 
-    // Lo podemos enviar así
     return sendJson(res, 200, filteredUsers)
   }
 

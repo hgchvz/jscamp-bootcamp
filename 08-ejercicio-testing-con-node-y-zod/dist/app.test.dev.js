@@ -115,30 +115,32 @@ var INVALID_ID = 'id-que-no-existe';
     });
   });
   (0, _nodeTest.test)('debe respetar el límite de resultados', function _callee5() {
-    var response, json;
+    var LIMIT, response, json;
     return regeneratorRuntime.async(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            _context5.next = 2;
-            return regeneratorRuntime.awrap(fetch("".concat(BASE_URL, "/jobs?limit=2")));
+            // Una observación mínima, si el límite es 2 y se repite muchas veces, lo podemos pasar a una constante
+            LIMIT = 2;
+            _context5.next = 3;
+            return regeneratorRuntime.awrap(fetch("".concat(BASE_URL, "/jobs?limit=").concat(LIMIT)));
 
-          case 2:
+          case 3:
             response = _context5.sent;
 
             _nodeAssert["default"].strictEqual(response.status, 200);
 
-            _context5.next = 6;
+            _context5.next = 7;
             return regeneratorRuntime.awrap(response.json());
 
-          case 6:
+          case 7:
             json = _context5.sent;
 
-            _nodeAssert["default"].strictEqual(json.limit, 2);
+            _nodeAssert["default"].strictEqual(json.limit, LIMIT);
 
-            _nodeAssert["default"].strictEqual(json.data.length, 2);
+            _nodeAssert["default"].strictEqual(json.data.length, LIMIT);
 
-          case 9:
+          case 10:
           case "end":
             return _context5.stop();
         }
@@ -146,7 +148,7 @@ var INVALID_ID = 'id-que-no-existe';
     });
   });
   (0, _nodeTest.test)('debe aplicar offset correctamente', function _callee6() {
-    var response, json;
+    var response, json, offset, responseWithOffset, jsonWithOffset, firstJobWithOffset, responseAll, jsonAll, firstJobAll;
     return regeneratorRuntime.async(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
@@ -167,7 +169,39 @@ var INVALID_ID = 'id-que-no-existe';
 
             _nodeAssert["default"].strictEqual(json.data[0].id, VALID_ID, 'El primer resultado debe ser el segundo job del JSON');
 
-          case 8:
+            offset = 2;
+            _context6.next = 11;
+            return regeneratorRuntime.awrap(fetch("".concat(BASE_URL, "/jobs?offset=").concat(offset)));
+
+          case 11:
+            responseWithOffset = _context6.sent;
+
+            _nodeAssert["default"].strictEqual(responseWithOffset.status, 200);
+
+            _context6.next = 15;
+            return regeneratorRuntime.awrap(responseWithOffset.json());
+
+          case 15:
+            jsonWithOffset = _context6.sent;
+            firstJobWithOffset = jsonWithOffset.data[0];
+            _context6.next = 19;
+            return regeneratorRuntime.awrap(fetch("".concat(BASE_URL, "/jobs")));
+
+          case 19:
+            responseAll = _context6.sent;
+
+            _nodeAssert["default"].strictEqual(responseAll.status, 200);
+
+            _context6.next = 23;
+            return regeneratorRuntime.awrap(responseAll.json());
+
+          case 23:
+            jsonAll = _context6.sent;
+            firstJobAll = jsonAll.data[2];
+
+            _nodeAssert["default"].strictEqual(firstJobWithOffset.id, firstJobAll.id, 'El primer resultado con offset=2 debe ser el tercer job del JSON');
+
+          case 26:
           case "end":
             return _context6.stop();
         }
@@ -177,7 +211,7 @@ var INVALID_ID = 'id-que-no-existe';
 });
 (0, _nodeTest.describe)('GET /jobs/:id', function () {
   (0, _nodeTest.test)('debe devolver el trabajo con el ID especificado', function _callee7() {
-    var response, json;
+    var response, json, responseAll, jsonAll, firstJobAllId, responseById, jsonById;
     return regeneratorRuntime.async(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
@@ -198,7 +232,37 @@ var INVALID_ID = 'id-que-no-existe';
 
             _nodeAssert["default"].strictEqual(json.id, VALID_ID);
 
-          case 8:
+            _context7.next = 10;
+            return regeneratorRuntime.awrap(fetch("".concat(BASE_URL, "/jobs")));
+
+          case 10:
+            responseAll = _context7.sent;
+
+            _nodeAssert["default"].strictEqual(responseAll.status, 200);
+
+            _context7.next = 14;
+            return regeneratorRuntime.awrap(responseAll.json());
+
+          case 14:
+            jsonAll = _context7.sent;
+            firstJobAllId = jsonAll.data[0].id;
+            _context7.next = 18;
+            return regeneratorRuntime.awrap(fetch("".concat(BASE_URL, "/jobs/").concat(firstJobAllId)));
+
+          case 18:
+            responseById = _context7.sent;
+
+            _nodeAssert["default"].strictEqual(responseById.status, 200);
+
+            _context7.next = 22;
+            return regeneratorRuntime.awrap(responseById.json());
+
+          case 22:
+            jsonById = _context7.sent;
+
+            _nodeAssert["default"].strictEqual(jsonById.id, firstJobAllId);
+
+          case 24:
           case "end":
             return _context7.stop();
         }

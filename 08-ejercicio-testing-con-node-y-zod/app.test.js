@@ -6,7 +6,6 @@ let server
 const PORT = 5678
 const BASE_URL = `http://localhost:${PORT}`
 
-// Buenisimo! Luego en uno de los ejemplos de petición voy a plantear una manera diferente de hacerlo para traer de manera siempre consistente un ID que exista
 const VALID_ID = 'd35b2c89-5d60-4f26-b19a-6cfb2f1a0f57'
 const ID_PARA_PATCH_Y_DELETE = 'f62d8a34-923a-4ac2-9b0b-14e0ac2f5405'
 const INVALID_ID = 'id-que-no-existe'
@@ -55,7 +54,6 @@ describe('GET /jobs', () => {
         assert.strictEqual(response.status, 200)
 
         const json = await response.json()
-        // Muy bien testeando estas dos propiedades
         assert.strictEqual(json.limit, LIMIT)
         assert.strictEqual(json.data.length, LIMIT)
     })
@@ -66,26 +64,15 @@ describe('GET /jobs', () => {
 
         const json = await response.json()
         assert.strictEqual(json.data[0].id, VALID_ID, 'El primer resultado debe ser el segundo job del JSON')
-
-        // También podemos validad con un offset superior a 1:
         const offset = 2
-        // 1. Obtenemos los jobs y verificamos status
         const responseWithOffset = await fetch(`${BASE_URL}/jobs?offset=${offset}`)
         assert.strictEqual(responseWithOffset.status, 200)
-
-        // 2. Guardamos el primer resultado con el offset=2
         const jsonWithOffset = await responseWithOffset.json()
         const firstJobWithOffset = jsonWithOffset.data[0]
-
-        // 3. Obtenemos todos los jobs y verificamos el status
         const responseAll = await fetch(`${BASE_URL}/jobs`)
         assert.strictEqual(responseAll.status, 200)
-
-        // 4. Guardamos el job que está en la posición 3 -> que debería ser el primero con offset=2
         const jsonAll = await responseAll.json()
         const firstJobAll = jsonAll.data[2]
-       
-        // 5. Verificamos que el primer job con offset=2 es el mismo que el tercero sin offset
         assert.strictEqual(firstJobWithOffset.id, firstJobAll.id, 'El primer resultado con offset=2 debe ser el tercer job del JSON')
     })
 })
@@ -97,25 +84,12 @@ describe('GET /jobs/:id', () => {
 
         const json = await response.json()
         assert.strictEqual(json.id, VALID_ID)
-
-        // Otra cosa que podemos hacer es obtener un id real de la lista de jobs
-        // RECUERDA: Esto es una alternativa, lo que hiciste está genial :) Y en muchos casos debería ser así para evitar tantas peticiones
-
-        // 1. Obtenemos los jobs
         const responseAll = await fetch(`${BASE_URL}/jobs`)
         assert.strictEqual(responseAll.status, 200)
         const jsonAll = await responseAll.json()
-
-        // 2. Obtenemos el id del primer job
         const firstJobAllId = jsonAll.data[0].id
-
-        // 3. Obtenemos el job con ese id
         const responseById = await fetch(`${BASE_URL}/jobs/${firstJobAllId}`)
-
-        // 4. Verificamos que existe (esto nos da una pista de que el job es correcto)
         assert.strictEqual(responseById.status, 200)
-
-        // 5. Comparamos el `id` de ambos jobs para ver que es correcto
         const jsonById = await responseById.json()
         assert.strictEqual(jsonById.id, firstJobAllId)
     })
@@ -152,7 +126,6 @@ describe('POST /jobs', () => {
         assert.strictEqual(response.status, 201)
 
         const json = await response.json()
-        // Excelente validad que el `id` exista!
         assert.ok(json.id, 'El trabajo creado debe tener un id')
         assert.strictEqual(json.titulo, newJob.titulo)
         assert.strictEqual(json.empresa, newJob.empresa)
